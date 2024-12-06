@@ -3,7 +3,9 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
+	"time"
 )
 
 func computeDifferences(first, second []int) []int {
@@ -71,6 +73,7 @@ func mergeSort(arr []int) []int {
 }
 
 func main() {
+	start := time.Now()
 	// leggere le due liste
 	file, err := os.Open("./test1.txt")
 	if err != nil {
@@ -106,4 +109,7 @@ func main() {
 		total += n
 	}
 	fmt.Println(total)
+
+	elapsed := time.Since(start)
+	log.Printf("Binomial took %s", elapsed)
 }
