@@ -1,40 +1,50 @@
 package utils
 
-func Quicksort(arr) {
-
-}
-
-func quicksortIteration(arr []int, low int, high int) {
-	// find a pivot
-	var pivot = arr[len(arr)-1]
-
-	var i int = 0;
-	var j int = -1;
-	var temp int = nil
-
-	for i := 0; i < len(arr); i++ {
-
+func mergeSortInternal(arr []int, left, right int) {
+	if left < right {
+		center := (left + right) / 2
+		mergeSortInternal(arr, left, center)
+		mergeSortInternal(arr, center+1, right)
+		merge(arr, left, center, right)
 	}
 }
 
-func quicksortPartition(arr, low, high) {
+func merge(arr []int, left, center, right int) {
+	leftIndex := left
+	rightIndex := center + 1
+	tempArrayIndex := 0
+	tempArray := make([]int, right-left+1)
 
+	for leftIndex <= center && rightIndex <= right {
+		if arr[leftIndex] < arr[rightIndex] {
+			tempArray[tempArrayIndex] = arr[leftIndex]
+			leftIndex++
+			tempArrayIndex++
+		} else {
+			tempArray[tempArrayIndex] = arr[rightIndex]
+			rightIndex++
+			tempArrayIndex++
+		}
+	}
+
+	for leftIndex <= center {
+		tempArray[tempArrayIndex] = arr[leftIndex]
+		leftIndex++
+		tempArrayIndex++
+	}
+
+	for rightIndex <= right {
+		tempArray[tempArrayIndex] = arr[rightIndex]
+		rightIndex++
+		tempArrayIndex++
+	}
+
+	for z := left; z <= right; z++ {
+		arr[z] = tempArray[z-left]
+	}
 }
 
-func Quicksort(arr1) {
-function quicksort(arr, low, high)
-    if low < high:
-        pi = partition(arr, low, high)
-        quicksort(arr, low, pi - 1)
-        quicksort(arr, pi + 1, high)
-
-function partition(arr, low, high):
-    pivot = arr[high]
-    i = low - 1
-    for j = low to high - 1:
-        if arr[j] < pivot:
-            i = i + 1
-            swap arr[i] with arr[j]
-    swap arr[i + 1] with arr[high]
-    return (i + 1)
+func MergeSort(arr []int) []int {
+	mergeSortInternal(arr, 0, len(arr)-1)
+	return arr
 }
