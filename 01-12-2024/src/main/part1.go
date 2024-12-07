@@ -1,6 +1,6 @@
 package main
 
-func computePartOne(first, second []int) int {
+func computePartOne(first, second []int, ch chan int) {
 	if len(first) != len(second) {
 		panic("Le lunghezze sono diverse!")
 	}
@@ -17,5 +17,6 @@ func computePartOne(first, second []int) int {
 	for _, n := range result {
 		total += n
 	}
-	return total
+	ch <- total
+	close(ch)
 }

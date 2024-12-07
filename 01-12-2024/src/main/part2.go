@@ -1,6 +1,6 @@
 package main
 
-func computePartTwo(first, second []int) int {
+func computePartTwo(first, second []int, ch chan int) {
 	if len(first) != len(second) {
 		panic("Le lunghezze sono diverse!")
 	}
@@ -14,9 +14,11 @@ func computePartTwo(first, second []int) int {
 
 	result := 0
 	for i := 0; i < len(first); i++ {
-		elementFromFirstArray := first[i]
-
-		result = result + (elementFromFirstArray * secondArrayMapped[elementFromFirstArray])
+		func() {
+			elementFromFirstArray := first[i]
+			result = result + (elementFromFirstArray * secondArrayMapped[elementFromFirstArray])
+		}()
 	}
-	return result
+	ch <- result
+	close(ch)
 }
